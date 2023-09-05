@@ -1,5 +1,42 @@
-const DetailsHeader = () => (
-  <div>DetailsHeader</div>
-);
+import { Link } from 'react-router-dom'
 
-export default DetailsHeader;
+const DetailsHeader = ({ artistID, artistData, songData }) => {
+  const artist = artistData?.data && artistData?.data[0]?.attributes
+
+  return (
+    <div className="relative w-full flex flex-col">
+      <div className="w-full bg-gradient-to-l from-transparent to-black sm:h-48 h-28" />
+
+      <div className="absolute inset-0 flex items-center">
+        <img
+          alt="art"
+          src={
+            artistID
+              ? artist?.artwork?.url.replace('{w}', '500').replace('{h}', '500')
+              : songData?.images?.coverart
+          }
+          className="sm:w-48 w-28 sm:h-48 h-28 rounded-full border-2 object-cover shadow-xl shadow-black"
+        />
+
+        <div className="ml-5">
+          <p className="font-bold text-white sm:text-3xl text-xl">
+            {artistID ? artist?.name : songData?.title}
+          </p>
+
+          {!artistID && (
+            <Link to={`/artists/${songData?.artists && songData?.artists[0].adamid}`}>
+              <p className="text-base text-gray-400 my-2">{songData?.subtitle}</p>
+            </Link>
+          )}
+
+          <p className="text-base text-gray-400 my-2">
+            {artistID ? artist?.genreNames : songData?.genres?.primary}
+          </p>
+        </div>
+      </div>
+      <div className="w-full sm:h-44 h-24" />
+    </div>
+  )
+}
+
+export default DetailsHeader

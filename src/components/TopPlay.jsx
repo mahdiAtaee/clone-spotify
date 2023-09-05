@@ -10,6 +10,7 @@ import { useGetTopChartsQuery } from '../redux/services/ShazamCoreApi'
 import PlayPause from './PlayPause'
 import 'swiper/css'
 import 'swiper/css/free-mode'
+import Logo from '../assets/favicon.ico'
 
 const TopChartSong = ({ song, i, activeSong, isPlaying, handlePlayClick, handlePauseClick }) => (
   <div className="w-full flex flex-row items-center hover:bg-[#4c426e] py-2 p-4 rounded-lg cursor-pointer">
@@ -20,7 +21,9 @@ const TopChartSong = ({ song, i, activeSong, isPlaying, handlePlayClick, handleP
         <Link to={`/songs/${song?.key}`} className="font-bold text-white text-xl">
           {song?.title}
         </Link>
-        <Link to={`/artists/${song?.artists[0].adamid}`} className="text-base text-gray-300 mt-1">
+        <Link
+          to={`/artists/${song?.artists ? song?.artists[0].adamid : Logo}`}
+          className="text-base text-gray-300 mt-1">
           {song?.subtitle}
         </Link>
       </div>
@@ -44,7 +47,7 @@ const TopPlay = () => {
     divRef.current.scrollIntoView({ behavior: 'smooth' })
   })
 
-  const topSongs = data?.tracks?.slice(0, 5)
+  const topSongs = data?.tracks.slice(0, 5)
 
   const handlePlayClick = (song, i) => {
     dispatch(setActiveSong({ song, data, i }))
@@ -102,8 +105,11 @@ const TopPlay = () => {
               key={song?.key}
               style={{ width: '25%', height: 'auto' }}
               className="shadow-lg animate-slideright">
-              <Link to={`/artists/${song?.artists[0].adamid}`}>
-                <img src={song?.images.background} className="rounded-full w-full object-cover" />
+              <Link to={`/artists/${song?.artists ? song?.artists[0].adamid : '123456'}`}>
+                <img
+                  src={song?.images ? song?.images.background : Logo}
+                  className="rounded-full w-full object-cover"
+                />
               </Link>
             </SwiperSlide>
           ))}

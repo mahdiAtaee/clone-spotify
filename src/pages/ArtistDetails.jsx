@@ -24,7 +24,7 @@ const ArtistDetails = () => {
     return <Loader title="Searching for artist Details..." />
   }
   if (error || artistTopSongError) return <Error />
-  console.log(artistTopSongs)
+
   return (
     <div className="flex flex-col">
       <DetailsHeader artistID={artistId} artistData={artistData} />
